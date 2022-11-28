@@ -5,17 +5,17 @@ import { loadContract } from "./loadContract";
 import Web3 from "web3";
 
 //Goerli token test
-const UNI_TOKEN_ADDRESS = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984";
-const LINK_TOKEN_ADDRESS = "0x326c977e6efc84e512bb9c30f76e30c160ed06fb";
-const WETH_TOKEN_ADDRESS = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6";
-const ERC20ABI = require("./abi.json");
+const BUSD_TOKEN_ADDRESS = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
+const THG_TOKEN_ADDRESS = "0x9fd87aefe02441b123c3c32466cd9db4c578618f";
+const THC_TOKEN_ADDRESS = "0x24802247bd157d771b7effa205237d8e9269ba8a";
+const ERC20ABI = require("./abi_bsc_chain.json");
 
 export default function BalanceTokenGoerli() {
   const [walletAddress, setWalletAdress] = useState(0);
   const [ether, setEther] = useState(0);
-  const [uni, setUni] = useState(0);
-  const [link, setLink] = useState(0);
-  const [weth, setWeth] = useState(0);
+  const [busd, setBusd] = useState(0);
+  const [thg, setThg] = useState(0);
+  const [thc, setThc] = useState(0);
 
   useEffect(() => {
     const onLoad = async () => {
@@ -26,7 +26,7 @@ export default function BalanceTokenGoerli() {
 
       let ether;
       ether = await signer.getBalance();
-      ether = ethers.utils.formatEther(ether, 18);
+      ether = parseFloat(ethers.utils.formatEther(ether, 18));
       setEther(ether);
 
       const walletAddress = await signer.getAddress();
@@ -39,72 +39,72 @@ export default function BalanceTokenGoerli() {
       window.web3 = new Web3(window.web3.currentProvider);
       const web3 = window.web3;
 
-      // Balance UNI
-      const contractUniAddress =
-        web3.utils.toChecksumAddress(UNI_TOKEN_ADDRESS);
-      const contractUni = await loadContract(ERC20ABI, contractUniAddress);
-      const balanceUni = await contractUni.methods
+      // Balance BUSD
+      const contractBusdAddress =
+        web3.utils.toChecksumAddress(BUSD_TOKEN_ADDRESS);
+      const contractBusd = await loadContract(ERC20ABI, contractBusdAddress);
+      const balanceBusd = await contractBusd.methods
         .balanceOf(walletAddress)
         .call();
-      console.log("balanceUni_web3");
-      console.log(web3.utils.fromWei(balanceUni.toString()));
+      console.log("balanceBusd_web3");
+      console.log(web3.utils.fromWei(balanceBusd.toString()));
 
-      // Balance UNI-2
-      let uni;
-      const uniTokenContract = await new ethers.Contract(
-        UNI_TOKEN_ADDRESS,
+      // Balance BUSD-2
+      let busd;
+      const busdTokenContract = await new ethers.Contract(
+        BUSD_TOKEN_ADDRESS,
         ERC20ABI,
         provider
       );
-      uni = await uniTokenContract.balanceOf(walletAddress);
-      console.log("balanceUni_ethers");
-      console.log(ethers.utils.formatEther(uni, 18));
-      uni = ethers.utils.formatEther(uni, 18);
-      setUni(uni);
+      busd = await busdTokenContract.balanceOf(walletAddress);
+      console.log("balanceBusd_ethers");
+      console.log(ethers.utils.formatEther(busd, 18));
+      busd = parseFloat(ethers.utils.formatEther(busd, 18));
+      setBusd(busd);
 
-      //Balance LINK
-      const contractLinkAddress =
-        web3.utils.toChecksumAddress(LINK_TOKEN_ADDRESS);
-      const contractLink = await loadContract(ERC20ABI, contractLinkAddress);
-      const balanceLink = await contractLink.methods
+      //Balance THG
+      const contractThgAddress =
+        web3.utils.toChecksumAddress(THG_TOKEN_ADDRESS);
+      const contractThg = await loadContract(ERC20ABI, contractThgAddress);
+      const balanceThg = await contractThg.methods
         .balanceOf(walletAddress)
         .call();
       console.log("balanceLink_web3");
-      console.log(web3.utils.fromWei(balanceLink.toString()));
+      console.log(web3.utils.fromWei(balanceThg.toString()));
 
-      //Balance LINK-2
-      let link;
-      const linkTokenContract = await new ethers.Contract(
-        LINK_TOKEN_ADDRESS,
+      //Balance THG-2
+      let thg;
+      const thgTokenContract = await new ethers.Contract(
+        THG_TOKEN_ADDRESS,
         ERC20ABI,
         provider
       );
-      link = await linkTokenContract.balanceOf(walletAddress);
-      link = ethers.utils.formatEther(link, 18);
-      setLink(link);
+      thg = await thgTokenContract.balanceOf(walletAddress);
+      thg = parseFloat(ethers.utils.formatEther(thg, 18));
+      setThg(thg);
 
-      //Balance WETH
-      const contractWethAddress =
-        web3.utils.toChecksumAddress(WETH_TOKEN_ADDRESS);
-      const contractWeth = await loadContract(ERC20ABI, contractWethAddress);
-      const balanceWeth = await contractWeth.methods
+      //Balance THC
+      const contractThcAddress =
+        web3.utils.toChecksumAddress(THC_TOKEN_ADDRESS);
+      const contractThc = await loadContract(ERC20ABI, contractThcAddress);
+      const balanceThc = await contractThc.methods
         .balanceOf(walletAddress)
         .call();
-      console.log("balanceWeth_web3");
-      console.log(web3.utils.fromWei(balanceWeth.toString()));
+      console.log("balanceThc_web3");
+      console.log(web3.utils.fromWei(balanceThc.toString()));
 
-      //Balance WETH_2
-      let weth;
-      const wethTokenContract = await new ethers.Contract(
-        WETH_TOKEN_ADDRESS,
+      //Balance THC_2
+      let thc;
+      const thcTokenContract = await new ethers.Contract(
+        THC_TOKEN_ADDRESS,
         ERC20ABI,
         provider
       );
-      weth = await wethTokenContract.balanceOf(walletAddress);
-      weth = ethers.utils.formatEther(weth, 18);
-      setWeth(weth);
+      thc = await thcTokenContract.balanceOf(walletAddress);
+      thc = parseFloat(ethers.utils.formatEther(thc, 18));
+      setThc(thc);
       console.log("balanceWeth_ethers");
-      console.log(weth);
+      console.log(thc);
     };
 
     onLoad();
@@ -113,10 +113,10 @@ export default function BalanceTokenGoerli() {
   return (
     <div>
       <h3>Welcome to wallet: {walletAddress}</h3>
-      <h3>Goeri ETH: {ether}</h3>
-      <h3>UNI: {uni}</h3>
-      <h3>LINK: {link}</h3>
-      <h3>WETH: {weth}</h3>
+      <h3>BNB: {ether.toFixed(4)}</h3>
+      <h3>BUSD: {busd.toFixed(4)}</h3>
+      <h3>THG: {thg.toFixed(4)}</h3>
+      <h3>THC: {thc.toFixed(4)}</h3>
     </div>
   );
 }

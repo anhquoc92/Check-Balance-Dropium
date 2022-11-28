@@ -26,7 +26,7 @@ export default function BalanceTokenGoerli() {
 
       let ether;
       ether = await signer.getBalance();
-      ether = ethers.utils.formatEther(ether, 18);
+      ether = parseFloat(ethers.utils.formatEther(ether, 18));
       setEther(ether);
 
       const walletAddress = await signer.getAddress();
@@ -59,7 +59,7 @@ export default function BalanceTokenGoerli() {
       uni = await uniTokenContract.balanceOf(walletAddress);
       console.log("balanceUni_ethers");
       console.log(ethers.utils.formatEther(uni, 18));
-      uni = ethers.utils.formatEther(uni, 18);
+      uni = parseFloat(ethers.utils.formatEther(uni, 18));
       setUni(uni);
 
       //Balance LINK
@@ -80,7 +80,7 @@ export default function BalanceTokenGoerli() {
         provider
       );
       link = await linkTokenContract.balanceOf(walletAddress);
-      link = ethers.utils.formatEther(link, 18);
+      link = parseFloat(ethers.utils.formatEther(link, 18));
       setLink(link);
 
       //Balance WETH
@@ -101,7 +101,7 @@ export default function BalanceTokenGoerli() {
         provider
       );
       weth = await wethTokenContract.balanceOf(walletAddress);
-      weth = ethers.utils.formatEther(weth, 18);
+      weth = parseFloat(ethers.utils.formatEther(weth, 18));
       setWeth(weth);
       console.log("balanceWeth_ethers");
       console.log(weth);
@@ -113,10 +113,10 @@ export default function BalanceTokenGoerli() {
   return (
     <div>
       <h3>Welcome to wallet: {walletAddress}</h3>
-      <h3>Goeri ETH: {ether}</h3>
-      <h3>UNI: {uni}</h3>
-      <h3>LINK: {link}</h3>
-      <h3>WETH: {weth}</h3>
+      <h3>Goeri ETH: {ether.toFixed(4)}</h3>
+      <h3>UNI: {uni.toFixed(4)}</h3>
+      <h3>LINK: {link.toFixed(4)}</h3>
+      <h3>WETH: {weth.toFixed(4)}</h3>
     </div>
   );
 }
